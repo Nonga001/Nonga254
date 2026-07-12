@@ -36,25 +36,36 @@ const Github = (props: React.SVGProps<SVGSVGElement>) => (
 const projects = [
   {
     id: 1,
-    title: "WeCare",
-    description: "A comprehensive support platform for student mothers in universities, providing resources, community connection, and daily activity assistance to help them balance parenting and academics.",
-    longDescription: "WeCare empowers student mothers by connecting them with essential resources including childcare support, academic tutoring, mental health services, and a supportive community of peers. The platform streamlines access to university aid programs and facilitates peer-to-peer support networks.",
+    title: "WeCare Digital Platform",
+    description:
+      "A full-stack web platform developed to support student mothers by streamlining access to university assistance, emergency support services, case management, and communication between students and administrators.",
+    longDescription:
+      "WeCare Digital Platform is a university support system designed to improve how student mothers access institutional assistance. The platform enables students to request support, report emergencies, manage personal cases, receive announcements, and communicate with university administrators through a centralized portal. Administrators can manage student records, monitor support requests, generate reports, and coordinate available resources, making service delivery more organized, transparent, and efficient.",
     category: "Social Impact",
-    techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Node.js", "MongoDB", "Socket.io"],
-    features: [
-      "Resource hub for childcare and academic support",
-      "Peer-to-peer community networking",
-      "Real-time messaging and support groups",
-      "University aid program integration",
-      "Activity scheduling and daily planning tools"
+    techStack: [
+      "React",
+      "TypeScript",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "Tailwind CSS",
     ],
-    impact: "Supporting 500+ student mothers across 15 universities",
-    role: "Lead Full-Stack Developer",
-    liveUrl: "https://wecare.example.com",
-    githubUrl: "https://github.com/yourusername/wecare",
-    image: "/images/wecare-preview.jpg", // We'll set this up
-    color: "from-pink-500 to-rose-500"
-  }
+    features: [
+      "Student registration and profile management",
+      "Emergency assistance request system",
+      "Case and support request management",
+      "Announcements and university updates",
+      "Administrative dashboard and reporting",
+      "Secure authentication and role-based access control",
+    ],
+    impact:
+      "Designed to improve access to university support services for student mothers while simplifying administrative management and reporting.",
+    role: "Full-Stack Developer",
+    liveUrl: "https://we-care-project-five.vercel.app/",
+    githubUrl: "https://github.com/Nonga001/WeCare_Project",
+    image: "/images/projects/wecare.jpeg",
+    color: "from-pink-500 to-rose-500",
+  },
 ];
 
 export function Projects() {
@@ -72,7 +83,7 @@ export function Projects() {
           Projects
         </h2>
         <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-          Here are some of my recent works — each project represents my commitment to building meaningful solutions.
+          A selection of projects demonstrating my experience in full-stack software development, cybersecurity, and building technology that solves real-world problems.
         </p>
       </motion.div>
 
