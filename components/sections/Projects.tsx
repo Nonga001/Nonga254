@@ -64,20 +64,20 @@ const projects = [
     liveUrl: "https://we-care-project-five.vercel.app/",
     githubUrl: "https://github.com/Nonga001/WeCare_Project",
     image: "/images/projects/wecare.jpeg",
-    color: "from-pink-500 to-rose-500",
+    color: "from-blue-600 to-indigo-600",
   },
 ];
 
 export function Projects() {
   return (
-    <section id="projects" className="py-24 px-6 max-w-7xl mx-auto">
+    <section id="projects" className="py-12 sm:py-20 lg:py-24 px-6 max-w-7xl mx-auto">
       {/* Section Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
-        className="text-center mb-16"
+        className="text-center mb-8 sm:mb-12 lg:mb-16"
       >
         <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
           Projects
@@ -101,7 +101,7 @@ export function Projects() {
             <Card className="overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-300 bg-white dark:bg-slate-900">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
                 {/* Image Section */}
-                <div className="relative h-64 lg:h-auto overflow-hidden bg-gradient-to-br from-pink-500/20 to-rose-500/20">
+                <div className="relative h-64 lg:h-auto overflow-hidden bg-gradient-to-br from-blue-500/20 to-indigo-500/20">
                   {project.image ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
@@ -111,7 +111,7 @@ export function Projects() {
                     />
                   ) : (
                     <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center">
-                      <div className="w-20 h-20 rounded-full bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center mb-4">
+                      <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center mb-4">
                         <Heart className="w-10 h-10 text-white" />
                       </div>
                       <h3 className="text-2xl font-bold text-slate-800 dark:text-white">
@@ -171,7 +171,7 @@ export function Projects() {
                       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
                         {project.features.map((feature, i) => (
                           <li key={i} className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
-                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-gradient-to-r from-pink-500 to-rose-500 mt-1.5 flex-shrink-0" />
+                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 mt-1.5 flex-shrink-0" />
                             {feature}
                           </li>
                         ))}
@@ -180,8 +180,8 @@ export function Projects() {
 
                     {/* Impact */}
                     {project.impact && (
-                      <div className="flex items-center gap-2 p-3 bg-gradient-to-r from-pink-50 to-rose-50 dark:from-pink-950/30 dark:to-rose-950/30 rounded-lg mb-4">
-                        <Heart className="w-4 h-4 text-pink-500 flex-shrink-0" />
+                      <div className="flex items-center gap-2 p-3 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 rounded-lg mb-4">
+                        <Heart className="w-4 h-4 text-blue-600 dark:text-blue-400 flex-shrink-0" />
                         <span className="text-sm text-slate-700 dark:text-slate-200">
                           <span className="font-semibold">Impact:</span> {project.impact}
                         </span>
@@ -190,7 +190,7 @@ export function Projects() {
                   </CardContent>
 
                   <CardFooter className="p-0 mt-4 flex flex-wrap gap-3">
-                    <Button asChild className="gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600">
+                    <Button asChild className="gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white">
                       <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
                         <ExternalLink className="w-4 h-4" />
                         Live Demo

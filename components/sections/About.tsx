@@ -222,7 +222,7 @@ export function About() {
     return (
         <section
             id="about"
-            className="py-24 px-6 max-w-7xl mx-auto"
+            className="py-12 sm:py-20 lg:py-24 px-6 max-w-7xl mx-auto"
         >
             {/* Section Header */}
             <motion.div
@@ -230,7 +230,7 @@ export function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
                 viewport={{ once: true }}
-                className="text-center mb-16"
+                className="text-center mb-8 sm:mb-12 lg:mb-16"
             >
                 <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
                     About Me
@@ -609,48 +609,40 @@ export function About() {
 
                 </div>
 
-                {/* ================= Mission ================= */}
-
-                <div className="rounded-3xl bg-gradient-to-br from-blue-500/10 via-indigo-500/10 to-purple-500/10 border shadow-lg p-8">
-
-                    <div className="flex items-center gap-2 mb-6">
-
-                        <Heart className="w-6 h-6 text-red-500" />
-
-                        <h4 className="text-xl font-semibold">
-                            My Mission
-                        </h4>
-
-                    </div>
-
-                    <p className="leading-8 text-muted-foreground">
-
-                        My mission is to build secure, intelligent and impactful software
-                        that improves people's lives. I believe cybersecurity should be
-                        integrated into every stage of software development, and that AI
-                        should be used responsibly to solve real-world challenges.
-
-                    </p>
-
-                    <div className="flex flex-wrap gap-3 mt-8">
-
-                        <Badge>Cybersecurity</Badge>
-
-                        <Badge>Artificial Intelligence</Badge>
-
-                        <Badge>Secure Software Engineering</Badge>
-
-                        <Badge>Open Source</Badge>
-
-                        <Badge>Continuous Learning</Badge>
-
-                    </div>
-
-                </div>
-
             </motion.div>
 
         </div>
+
+        {/* ================= Mission (Full Width) ================= */}
+        <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="mt-12 rounded-3xl bg-gradient-to-br from-blue-500/10 via-indigo-500/10 to-purple-500/10 border shadow-lg p-8 sm:p-10"
+        >
+            <div className="flex items-center gap-2 mb-4">
+                <Heart className="w-6 h-6 text-red-500" />
+                <h4 className="text-xl font-semibold">
+                    My Mission
+                </h4>
+            </div>
+
+            <p className="leading-8 text-muted-foreground max-w-4xl text-base sm:text-lg">
+                My mission is to build secure, intelligent and impactful software
+                that improves people's lives. I believe cybersecurity should be
+                integrated into every stage of software development, and that AI
+                should be used responsibly to solve real-world challenges.
+            </p>
+
+            <div className="flex flex-wrap gap-3 mt-6">
+                <Badge>Cybersecurity</Badge>
+                <Badge>Artificial Intelligence</Badge>
+                <Badge>Secure Software Engineering</Badge>
+                <Badge>Open Source</Badge>
+                <Badge>Continuous Learning</Badge>
+            </div>
+        </motion.div>
 
     </section>
 

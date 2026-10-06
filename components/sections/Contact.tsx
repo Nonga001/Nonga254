@@ -8,9 +8,11 @@ import {
     MapPin,
     Send,
     Check,
+    CheckCircle2,
     Loader2,
     X,
     MessageSquarePlus,
+    AlertCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -63,22 +65,61 @@ function ContactModal({ onClose }: { onClose: () => void }) {
     const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
+        if (errorMessage) {
+            setErrorMessage(null);
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setErrorMessage(null);
+
+        // Validation
+        if (!formData.name.trim() || !formData.email.trim() || !formData.subject.trim() || !formData.message.trim()) {
+            setErrorMessage("Please fill in all fields before sending.");
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(formData.email.trim())) {
+            setErrorMessage("Please enter a valid email address.");
+            return;
+        }
+
         setIsSubmitting(true);
-        await new Promise((r) => setTimeout(r, 2000));
-        setIsSubmitting(false);
-        setIsSubmitted(true);
-        setTimeout(() => {
-            setIsSubmitted(false);
+
+        try {
+            const res = await fetch("/api/contact", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.error || "Failed to send message. Please try again.");
+            }
+
+            setIsSubmitting(false);
+            setIsSubmitted(true);
             setFormData({ name: "", email: "", subject: "", message: "" });
-            onClose();
-        }, 2500);
+
+            setTimeout(() => {
+                setIsSubmitted(false);
+                onClose();
+            }, 3000);
+        } catch (err: unknown) {
+            setIsSubmitting(false);
+            const msg = err instanceof Error ? err.message : "An error occurred while sending your message.";
+            setErrorMessage(msg);
+        }
     };
 
     return (
@@ -111,15 +152,15 @@ function ContactModal({ onClose }: { onClose: () => void }) {
 
                 {isSubmitted ? (
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
+                        initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         className="flex flex-col items-center justify-center py-10 text-center"
                     >
-                        <div className="w-16 h-16 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-4">
-                            <Check className="w-8 h-8 text-green-600 dark:text-green-400" />
+                        <div className="w-14 h-14 rounded-full bg-emerald-500/10 dark:bg-emerald-500/20 flex items-center justify-center mb-4 text-emerald-600 dark:text-emerald-400">
+                            <CheckCircle2 className="w-7 h-7" />
                         </div>
-                        <h3 className="text-2xl font-semibold mb-2">Message Sent! 🎉</h3>
-                        <p className="text-muted-foreground">Thanks for reaching out! I'll get back to you soon.</p>
+                        <h3 className="text-2xl font-semibold mb-2 text-foreground">Message Sent Successfully</h3>
+                        <p className="text-muted-foreground text-sm max-w-xs">Thank you for reaching out. Your message has been delivered and I will get back to you shortly.</p>
                     </motion.div>
                 ) : (
                     <>
@@ -128,21 +169,32 @@ function ContactModal({ onClose }: { onClose: () => void }) {
                             <p className="text-sm text-muted-foreground mt-1">I'll reply as soon as possible.</p>
                         </div>
 
+                        {errorMessage && (
+                            <motion.div
+                                initial={{ opacity: 0, y: -8 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="mb-4 flex items-start gap-2.5 rounded-lg border border-red-500/20 bg-red-500/10 p-3 text-sm text-red-600 dark:text-red-400"
+                            >
+                                <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+                                <span>{errorMessage}</span>
+                            </motion.div>
+                        )}
+
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label htmlFor="name" className="block text-sm font-medium mb-1.5">Your Name</label>
-                                    <Input id="name" placeholder="Sheldon" value={formData.name} onChange={handleChange} required />
+                                    <Input id="name" placeholder="Sheldon" value={formData.name} onChange={handleChange} required disabled={isSubmitting} />
                                 </div>
                                 <div>
                                     <label htmlFor="email" className="block text-sm font-medium mb-1.5">Your Email</label>
-                                    <Input id="email" type="email" placeholder="you@example.com" value={formData.email} onChange={handleChange} required />
+                                    <Input id="email" type="email" placeholder="you@example.com" value={formData.email} onChange={handleChange} required disabled={isSubmitting} />
                                 </div>
                             </div>
 
                             <div>
                                 <label htmlFor="subject" className="block text-sm font-medium mb-1.5">Subject</label>
-                                <Input id="subject" placeholder="Project Inquiry" value={formData.subject} onChange={handleChange} required />
+                                <Input id="subject" placeholder="Project Inquiry" value={formData.subject} onChange={handleChange} required disabled={isSubmitting} />
                             </div>
 
                             <div>
@@ -154,13 +206,14 @@ function ContactModal({ onClose }: { onClose: () => void }) {
                                     value={formData.message}
                                     onChange={handleChange}
                                     required
+                                    disabled={isSubmitting}
                                     className="w-full resize-none"
                                 />
                             </div>
 
                             <Button
                                 type="submit"
-                                className="w-full gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                                className="w-full gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white cursor-pointer"
                                 disabled={isSubmitting}
                             >
                                 {isSubmitting ? (
@@ -213,16 +266,15 @@ export function Contact() {
 
     return (
         <>
-            <section id="contact" className="py-24 px-6 max-w-4xl mx-auto">
+            <section id="contact" className="py-12 sm:py-20 lg:py-24 px-6 max-w-4xl mx-auto">
                 {/* Section Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                     viewport={{ once: true }}
-                    className="text-center mb-14"
+                    className="text-center mb-8 sm:mb-12 lg:mb-14"
                 >
-                    <Badge variant="outline" className="mb-4 px-4 py-1.5">📬 Get In Touch</Badge>
                     <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
                         Let's Connect
                     </h2>
