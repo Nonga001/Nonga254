@@ -89,15 +89,17 @@ export async function POST(request: Request) {
       emailPayload.accessToken = privateKey;
     }
 
+    // Derive origin dynamically so this works in both dev and production
+    const requestOrigin = request.headers.get("origin") || request.headers.get("referer") || "https://nonga254.vercel.app";
+
     const response = await fetch(
       "https://api.emailjs.com/api/v1.0/email/send",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
-          "Origin": "http://localhost:3000",
-          "Referer": "http://localhost:3000/",
+          "User-Agent": "Mozilla/5.0",
+          "Origin": requestOrigin,
         },
         body: JSON.stringify(emailPayload),
       }
